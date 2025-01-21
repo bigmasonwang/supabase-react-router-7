@@ -1,5 +1,6 @@
-import { Form, Link } from "react-router";
-import type { Route } from "./+types/home";
+import { Form, Link, redirect } from "react-router";
+import type { Route } from "./+types/login";
+import { serverClient } from "~/lib/supabase";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,7 +9,28 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Login() {
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData();
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  const supabase = serverClient({ request });
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    return error;
+  }
+
+  return redirect("/dashboard");
+}
+
+export default function Login({ actionData }: Route.ComponentProps) {
+  console.log(actionData);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">

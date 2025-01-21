@@ -1,5 +1,6 @@
 import { Form, redirect } from "react-router";
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/dashboard";
+import { serverClient } from "~/lib/supabase";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,16 +9,18 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader() {
-  // TODO: Replace with actual auth check
-  const isAuthenticated = false;
-  if (!isAuthenticated) {
-    return redirect("/login");
-  }
-  return null;
+export async function loader({ request }: Route.LoaderArgs) {
+  const supabase = serverClient({ request });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  return session?.user || null;
 }
 
-export default function Dashboard() {
+export default function Dashboard({ loaderData }: Route.ComponentProps) {
+  console.log("loaderData: ", loaderData);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <nav className="bg-white dark:bg-gray-800 shadow">

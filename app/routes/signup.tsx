@@ -1,5 +1,6 @@
-import { Form, Link } from "react-router";
-import type { Route } from "./+types/home";
+import { Form, Link, redirect } from "react-router";
+import type { Route } from "./+types/signup";
+import { serverClient } from "~/lib/supabase";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,7 +9,25 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function SignUp() {
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData();
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  const supabase = serverClient({ request });
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: "localhost:5173",
+    },
+  });
+  return { data, error };
+}
+
+export default function SignUp({ actionData }: Route.ComponentProps) {
+  console.log(actionData);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -28,20 +47,6 @@ export default function SignUp() {
         </div>
         <Form method="post" className="mt-8 space-y-6">
           <div className="rounded-md shadow-sm space-y-4">
-            <div>
-              <label htmlFor="name" className="sr-only">
-                Full Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                autoComplete="name"
-                required
-                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 dark:text-white dark:bg-gray-800 dark:border-gray-700 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Full Name"
-              />
-            </div>
             <div>
               <label htmlFor="email" className="sr-only">
                 Email address
