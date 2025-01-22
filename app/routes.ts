@@ -7,4 +7,5 @@ export default [
   route("/dashboard", "routes/dashboard.tsx"),
   route("/auth/confirm", "routes/auth/confirm.tsx"),
   route("/auth/auth-code-error", "routes/auth/auth-code-error.tsx"),
+  route("/auth/logout", "routes/auth/logout.tsx"),
 ] satisfies RouteConfig;

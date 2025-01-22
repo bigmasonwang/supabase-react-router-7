@@ -36,7 +36,7 @@ export default function Dashboard({ loaderData }: Route.ComponentProps) {
               </h1>
             </div>
             <div className="flex items-center">
-              <Form method="post" action="/logout">
+              <Form method="post" action="/auth/logout">
                 <button
                   type="submit"
                   className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
