@@ -19,7 +19,7 @@ export async function action({ request }: Route.ActionArgs) {
     email,
     password,
     options: {
-      emailRedirectTo: "localhost:5173",
+      emailRedirectTo: "http://localhost:5173/dashboard/",
     },
   });
   return { data, error };
@@ -85,6 +85,13 @@ export default function SignUp({ actionData }: Route.ComponentProps) {
               Create Account
             </button>
           </div>
+
+          {actionData?.error && (
+            <div className="text-red-500">{actionData.error.message}</div>
+          )}
+          {actionData?.data && (
+            <div>email sent to {actionData.data.user?.email}</div>
+          )}
         </Form>
       </div>
     </div>
