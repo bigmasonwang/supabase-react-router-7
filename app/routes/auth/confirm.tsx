@@ -13,7 +13,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   if (token_hash && type) {
     const supabase = serverClient({ request });
 
-    const { error } = await supabase.auth.verifyOtp({
+    const { error } = await supabase.client.auth.verifyOtp({
       type,
       token_hash,
     });

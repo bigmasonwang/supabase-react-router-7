@@ -12,14 +12,18 @@ export function meta({}: Route.MetaArgs) {
 export async function loader({ request }: Route.LoaderArgs) {
   const supabase = serverClient({ request });
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.client.auth.getUser();
 
-  return session?.user || null;
+  if (!user) {
+    return redirect("/login");
+  }
+
+  return user;
 }
 
 export default function Dashboard({ loaderData }: Route.ComponentProps) {
-  console.log("loaderData: ", loaderData);
+  console.log("user: ", loaderData);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

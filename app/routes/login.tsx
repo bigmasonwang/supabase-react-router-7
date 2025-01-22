@@ -16,7 +16,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   const supabase = serverClient({ request });
 
-  const { data, error } = await supabase.auth.signInWithPassword({
+  const { error } = await supabase.client.auth.signInWithPassword({
     email,
     password,
   });
@@ -25,12 +25,10 @@ export async function action({ request }: Route.ActionArgs) {
     return error;
   }
 
-  return redirect("/dashboard");
+  return redirect("/dashboard", { headers: supabase.headers });
 }
 
 export default function Login({ actionData }: Route.ComponentProps) {
-  console.log(actionData);
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">

@@ -15,7 +15,7 @@ export async function action({ request }: Route.ActionArgs) {
   const password = formData.get("password") as string;
 
   const supabase = serverClient({ request });
-  const { data, error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.client.auth.signUp({
     email,
     password,
     options: {

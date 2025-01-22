@@ -7,7 +7,7 @@ import {
 export function serverClient({ request }: { request: Request }) {
   const headers = new Headers();
 
-  const supabase = createServerClient(
+  const client = createServerClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_ANON_KEY!,
     {
@@ -27,5 +27,5 @@ export function serverClient({ request }: { request: Request }) {
     }
   );
 
-  return supabase;
+  return { client, headers };
 }
