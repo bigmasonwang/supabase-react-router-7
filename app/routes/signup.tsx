@@ -121,7 +121,7 @@ export default function SignUp({ actionData }: Route.ComponentProps) {
           {actionData?.error && (
             <div className="text-red-500">{actionData.error.message}</div>
           )}
-          {actionData?.data && (
+          {!actionData?.error && actionData?.data && (
             <div>email sent to {actionData.data.user?.email}</div>
           )}
         </Form>
