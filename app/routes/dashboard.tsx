@@ -25,7 +25,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 export default function Dashboard({ loaderData }: Route.ComponentProps) {
-  console.log("user: ", loaderData);
+  // console.log("user: ", loaderData);
 
   return (
     <div className="min-h-screen bg-background">
